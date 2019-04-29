@@ -7,9 +7,9 @@ MEJORAR GENERAR UN MECANISMO DE TRANSPORTE ÓPTIMO
 class Localidad:
 
     def __init__(self):
-        self.__habitantes = None
-        self.__estrato = None
-        self.__presupuesto = None
+        self.__habitantes = 120
+        self.__estrato = 3
+        self.__presupuesto = 1200
         self.__ciclovia = False
         self.__publico = False
         self.__carro = False
@@ -109,7 +109,7 @@ class Localidad:
         infoHabitantes = 'La localidad posee {} habitantes.\n'.format(self.getHabitantes())
         infoEstrato = 'La localidad tiene estrato {}.\n'.format(self.getEstrato())
         infoPresupuesto = 'La localidad posee un presupuesto de {} cucupesos.\n'.format(self.getPresupuesto())
-        infoCiclovia = 'La localidad {} posee ciclovia.\n'.format(TransportePublico)
+        infoCiclovia = 'La localidad {} posee ciclovia.\n'.format(Ciclovia)
         infoPublico = 'La localidad {} posee trasnporte publico.\n'.format(TransportePublico)
         infoCarro = 'La localidad {} posee ruta vehicular.\n'.format(RutaVehicular)
 
