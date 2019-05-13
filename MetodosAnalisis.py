@@ -19,7 +19,9 @@ def ConexionEntreDosObjetos(object1 , object2):
                 else:
                     cantidadTraslado = int(input('Cuántas personas se trasladan de {0} a {1} usando ciclovía'.format(nombre1 , nombre2)))
                     object1.movimientosCiclovia[localidad] = cantidadTraslado
+                    object1.trasladoDeCiclovia = cantidadTraslado
                     object2.movimientosCiclovia[localidad2] = cantidadTraslado
+                    object2.trasladoDeCiclovia = cantidadTraslado
 
     for localidad in conexionesPublico1:
         for localidad2 in conexionesPublico2:
@@ -29,7 +31,9 @@ def ConexionEntreDosObjetos(object1 , object2):
                 else:
                     cantidadTraslado = int(input('Cuántas personas se trasladan de {0} a {1} tomando transporte público'.format(nombre1 , nombre2)))
                     object1.movimientosPublico[localidad] = cantidadTraslado
+                    object1.trasladoDePublico = cantidadTraslado
                     object2.movimientosPublico[localidad2] = cantidadTraslado
+                    object2.trasladoDePublico = cantidadTraslado
 
     for localidad in conexionesCarro1:
         for localidad2 in conexionesCarro2:
@@ -39,6 +43,8 @@ def ConexionEntreDosObjetos(object1 , object2):
                 else:
                     cantidadTraslado = int(input('Cuántas personas se trasladan de {0} a {1} usando la ruta vehicular'.format(nombre1 , nombre2)))
                     object1.movimientosCarro[localidad] = cantidadTraslado
+                    object1.trasladoDeCarro = cantidadTraslado
                     object2.movimientosCarro[localidad2] = cantidadTraslado
+                    object2.trasladoDeCarro = cantidadTraslado
     print(object1)
     print(object2)
