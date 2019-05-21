@@ -2,97 +2,130 @@ import classLocalidad
 
 class Relacion(classLocalidad.Localidad):
     def __init__(self):
-        self.nombre = None
-        self.conexionesCiclovia = []
-        self.conexionesPublico = []
-        self.conexionesCarro = []
+        self.nombre = ''
 
-        self.movimientosCiclovia = {}
-        self.movimientosPublico = {}
-        self.movimientosCarro = {}
+        self.conexionesCiclovia = []  #LISTA DE LOCALIDAD ...
+        self.conexionesPublico = []   #CON LAS QUE ESTA ...
+        self.conexionesCarro = []     #LOCALIDAD CONECTA.
 
-        self.trasladoDeCiclovia = None
-        self.trasladoDePublico = None
-        self.trasladoDeCarro = None
+        self.movimientosCiclovia = {} #DICCIONARIOS CON EL ...
+        self.movimientosPublico = {}  #NOMBRE Y PESO DE LAS ...
+        self.movimientosCarro = {}    #LOCALIDADES CON QUE CONECTA.
 
-    def setNombre(self):
+        self.trasladoDeCiclovia = 0  #CANTIDAD DE PERSONAS ...
+        self.trasladoDePublico = 0   #QUE SE TRASLADAN A TRAVES ...
+        self.trasladoDeCarro = 0     #DE CADA VIA.
+
+        self.trasladoTotal = self.trasladoDeCiclovia + self.trasladoDePublico + self.trasladoDeCarro
+
+
+    def setNombre(self): #SETEA EL NOMBRE DE LA LOCALIDAD
         nombre = input('Cual es el nombre de la Localidad?: ')
         self.nombre = nombre
-    def getNombre(self):
+
+    def getNombre(self): #DEVUELVE EL NOMBRE DE LA LOCALIDAD
         return self.nombre
 
-    def setComparacionCiclovia(self):
+
+
+    def setComparacionCiclovia(self): #CREA UNA LISTA DE LAS LOCALIDADES CON LAS QUE SE CONECTA LA LOCALIDAD POR CICLOVIA.
         if self.ciclovia == False:
             print('La localidad no posee ciclovía.')
         else:
-            numeroConexionesCiclovia = int(input('Cuántas conexiones de ciclovia posee la localidad? '))
+            numeroConexionesCiclovia = int(input('Cuántas conexiones de ciclovia posee la localidad?: '))
+            numero = 1
             for x in range(numeroConexionesCiclovia):
-                localidadConectada = input('Localidad qué conecta por Ciclovía?: ')
+                localidadConectada = input('Localidad Nº{} qué conecta a {} por Ciclovía?: '.format(numero , self.getNombre()))
+                numero += 1
                 self.conexionesCiclovia.append(localidadConectada)
 
-    def setComparacionPublico(self):
+    def getConexionesCiclovia(self): #DEVUELVE LA LISTA DE LOCALIDADES CON LAS QUE SE CONECTA POR CICLOVIA
+        return self.conexionesCiclovia
+
+
+
+    def setComparacionPublico(self): #CREA UNA LISTA DE LAS LOCALIDADES CON LAS QUE SE CONECTA LA LOCALIDAD USANDO TRANSPORTE PUBLICO.
         if self.publico == False:
             print('La localidad no posee sistema de transporte público.')
         else:
-            numeroConexionesPublico = int(input('Cuántas conexiones de transporte público posee la localidad? '))
+            numeroConexionesPublico = int(input('Cuántas conexiones de Transporte Público posee la localidad?: '))
+            numero = 1
             for x in range(numeroConexionesPublico):
-                localidadConectada = input('Localidad qué conecta por Transporte Público?: ')
+                localidadConectada = input('Localidad Nº{} qué conecta a {} por Ciclovía?: '.format(numero, self.getNombre()))
+                numero += 1
                 self.conexionesPublico.append(localidadConectada)
 
-    def setComparacionCarro(self):
+    def getConexionesPublico(self):  #DEVUELVE LA LISTA DE LOCALIDADES CON LAS QUE SE CONECTA MEDIANTE TRANSPORTE PUBLICO
+        return self.conexionesPublico
+
+
+
+    def setComparacionCarro(self):  #CREA UNA LISTA DE LAS LOCALIDADES CON LAS QUE SE CONECTA LA LOCALIDAD POR RUTA VEHICULAR.
         if self.carro == False:
             print('La localidad no posee ruta vehicular.')
         else:
-            numeroConexionesCarro = int(input('Cuántas conexiones de ruta vehicular posee la localidad? '))
+            numeroConexionesCarro = int(input('Cuántas conexiones por ruta vehicular posee la localidad?: '))
+            numero = 1
             for x in range(numeroConexionesCarro):
-                localidadConectada = input('Localidad qué conecta por Ruta Vehicular?: ')
+                localidadConectada = input('Localidad Nº{} qué conecta a {} por ruta vehicular?: '.format(numero, self.getNombre()))
+                numero += 1
                 self.conexionesCarro.append(localidadConectada)
 
-    def getConexionesCiclovia(self):
-        return self.conexionesCiclovia
-    def getConexionesPublico(self):
-        return self.conexionesPublico
-    def getConexionesCarro(self):
+    def getConexionesCarro(self): #DEVUELVE LA LISTA DE LOCALIDADES CON LAS QUE SE CONECTA POR RUTA VEHICULAR
         return self.conexionesCarro
 
-    def establecerMovimientosCiclovia(self):
+
+
+    def establecerMovimientosCiclovia(self): #Establece un diccionario de la forma {'localidadConLaQueCOnecta':Personas que van}
         if self.ciclovia == False:
             pass
         else:
-            print('Considere que la localidad posee {} habitantes, menos los que ya se han establecido para moverse.'.format(str(self.getHabitantes())))
-            movimientos = int(input('De los {0} habitantes de {1}, ¿Cuántos se mueven usando bicicleta?: '.format(str(self.getHabitantes()), self.getNombre())))
+            print('Va a establecer el peso de {}, o sea la cantidad de habitantes que se mueven por ciclovía.'.format(str(self.getNombre())))
+            print('Recuerde que el peso también depende de los habitantes que se trasladen de otra localidad a {}.'.format(self.getNombre()))
+            movimientos = int(input('¿Cuántos habitantes se mueven usando bicicleta?: '))
             self.trasladoDeCiclovia = movimientos
             for n in self.conexionesCiclovia:
-                habitantesALocalidad = int(input('Cuántos habitantes se mueven de {0} a {1}'.format(self.getNombre() , n)))
+                habitantesALocalidad = int(input('¿Cuántos habitantes se mueven de {0} a {1}?: '.format(self.getNombre() , n)))
                 self.movimientosCiclovia[n] = habitantesALocalidad
-    def getMovimientosCiclovia(self):
+
+    def getMovimientosCiclovia(self): #Retorna el diccionario de las personas que se van a n localidad usando Ciclovía
         return self.movimientosCiclovia
 
-    def establecerMovimientosPublico(self):
+
+
+    def establecerMovimientosPublico(self):#Establece un diccionario de la forma {'localidadConLaQueCOnecta':Personas que van}
         if self.publico == False:
             pass
         else:
-            print('Considere que la localidad posee {} habitantes, menos los que ya se han establecido para moverse.'.format(str(self.getHabitantes())))
-            movimientos = int(input('De los {0} habitantes de {1}, ¿Cuántos se mueven usando Transporte Público?: '.format(str(self.getHabitantes()), self.getNombre())))
+            print('Va a establecer el peso de {}, o sea la cantidad de habitantes que se mueven usando transporte publico.'.format(str(self.getNombre())))
+            print('Recuerde que el peso también depende de los habitantes que se trasladen de otra localidad a {}.'.format(self.getNombre()))
+            movimientos = int(input('¿Cuántos habitantes se mueven tomando transporte público?: '))
             self.trasladoDePublico = movimientos
             for n in self.conexionesPublico:
-                habitantesALocalidad = int(input('Cuántos habitantes se mueven de {0} a {1}'.format(self.getNombre() , n)))
+                habitantesALocalidad = int(input('¿Cuántos habitantes se mueven de {0} a {1}?: '.format(self.getNombre() , n)))
                 self.movimientosPublico[n] = habitantesALocalidad
-    def getMovimientosPublico(self):
+
+    def getMovimientosPublico(self): #Retorna el diccionario de las personas que se van a n localidad usando transporte publico.
         return self.movimientosPublico
+
+
 
     def establecerMovimientosCarro(self):
         if self.carro == False:
             pass
         else:
-            print('Considere que la localidad posee {} habitantes, menos los que ya se han establecido para moverse.'.format(str(self.getHabitantes())))
-            movimientos = int(input('De los {0} habitantes de {1}, ¿Cuántos se mueven en carro?: '.format(str(self.getHabitantes()), self.getNombre())))
+            print('Va a establecer el peso de {}, o sea la cantidad de habitantes que se mueven usando carro.'.format(str(self.getNombre())))
+            print('Recuerde que el peso también depende de los habitantes que se trasladen de otra localidad a {}.'.format(self.getNombre()))
+            movimientos = int(input('¿Cuántos habitantes se mueven usando carro?: '))
             self.trasladoDeCarro = movimientos
             for n in self.conexionesCarro:
-                habitantesALocalidad = int(input('Cuántos habitantes se mueven de {0} a {1}'.format(self.getNombre() , n)))
+                habitantesALocalidad = int(input('¿Cuántos habitantes se mueven de {0} a {1}?: '.format(self.getNombre() , n)))
                 self.movimientosCarro[n] = habitantesALocalidad
+
     def getMovimientosCarro(self):
         return self.movimientosCarro
+
+
 
     def __str__(self):
 
@@ -134,15 +167,8 @@ class Relacion(classLocalidad.Localidad):
         else:
             infoMovimientosCarro = 'La localidad se conecta con ruta vehicular con {}'.format(movsCarro)
         trasladoCiclovia = self.trasladoDeCiclovia
-        if self.trasladoDeCiclovia == None:
-            trasladoCiclovia = 0
-        trasladoPublico = self.trasladoDePublico
-        if self.trasladoDePublico == None:
-            trasladoPublico = 0
-        trasladoCarro = self.trasladoDeCarro
-        if self.trasladoDeCiclovia == None:
-            trasladoCarro = 0
-        Traslado = trasladoCiclovia + trasladoPublico + trasladoCarro
+
+        Traslado = self.trasladoTotal
         TrasladosTotales = 'De {} habitantes, se trasladan {} '.format(self.getHabitantes() , str(Traslado))
         INFOBASICA = nombre  + '\n'+ infoHabitantes + infoEstrato +  infoPresupuesto + infoCiclovia + infoPublico + infoCarro
         INFOAVANZADA = infoMovimientosCiclovia + '\n' + infoMovimientosPublico + '\n' + infoMovimientosCarro + '\n' + TrasladosTotales
